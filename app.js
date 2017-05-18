@@ -25,11 +25,6 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
     app.use(bodyParser.urlencoded({ "extended": true }));
     app.use(express.static(path.join(__dirname, "public")));
 
-    app.get('/', (req, res) =>
-    {
-        res.send("Hello World!!!");
-    });
-
     // Start the HTTP server
     app.listen(httpPort, expressErr =>
     {

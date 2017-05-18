@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Miracle Help Desk</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+
+    <script>
+        $(() =>
+        {
+            $('.carousel').carousel({
+                "fullWidth": true,
+                "padding": 200
+            });
+
+            setInterval(() => $('.carousel').carousel('next'), 3000);
+        });
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="nav-wrapper cyan darken-4">
+            <div class="container">
+                <a href="/" class="brand-logo">Help Desk</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="cyan lighten-5">
+        <div class="carousel carousel-slider center" data-indicators="true">
+            <div class="carousel-item teal lighten-5" href="#one!">
+                <h2>First Panel</h2>
+                <p>This is your first panel</p>
+            </div>
+            <div class="carousel-item cyan lighten-5" href="#two!">
+                <h2>Second Panel</h2>
+                <p>This is your second panel</p>
+            </div>
+            <div class="carousel-item blue lighten-5" href="#three!">
+                <h2>Third Panel</h2>
+                <p>This is your third panel</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="page-footer cyan darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Knowledge Base</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#!">For configuring an account on mail client or mobile device - Zimbra Professional Account</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Changing your Email Password from Webmail</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Spark communicator Installation &amp; Setup</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Zimbra Calendar</a></li>
+                    </ul>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Recents</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                        <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                Help Desk &copy; 2017 Miracle Software Systems
+                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
