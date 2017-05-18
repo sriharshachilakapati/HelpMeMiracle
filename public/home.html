@@ -1,0 +1,26 @@
+<div class="carousel carousel-slider center" data-indicators="true">
+    <div class="carousel-item teal lighten-5" href="#one!">
+        <h2>First Panel</h2>
+        <p>This is your first panel</p>
+    </div>
+    <div class="carousel-item cyan lighten-5" href="#two!">
+        <h2>Second Panel</h2>
+        <p>This is your second panel</p>
+    </div>
+    <div class="carousel-item blue lighten-5" href="#three!">
+        <h2>Third Panel</h2>
+        <p>This is your third panel</p>
+    </div>
+</div>
+
+<script>
+    $(() =>
+    {
+        $('.carousel').carousel({
+            "fullWidth": true,
+            "padding": 200
+        });
+
+        setInterval(() => $('.carousel').carousel('next'), 3000);
+    });
+</script>
