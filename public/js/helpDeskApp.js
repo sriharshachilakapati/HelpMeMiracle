@@ -10,6 +10,10 @@ app.config(function($routeProvider, $locationProvider)
         "templateUrl": "login.html",
         "controller": "loginCtrl"
     }).
+    when('/register', {
+        "templateUrl": "register.html",
+        "controller": "registerCtrl"
+    }).
     otherwise({
         "redirectTo": "/"
     });
