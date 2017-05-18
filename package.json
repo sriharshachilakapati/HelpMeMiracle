@@ -1,0 +1,39 @@
+{
+  "name": "helpmiracle",
+  "version": "0.0.1",
+  "description": "Help Desk web application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sriharshachilakapati/HelpMiracle.git"
+  },
+  "keywords": [
+    "mean",
+    "node",
+    "help",
+    "desk",
+    "intern",
+    "ticket",
+    "miracle"
+  ],
+  "author": "Sri Harsha Chilakapati",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sriharshachilakapati/HelpMiracle/issues"
+  },
+  "homepage": "https://github.com/sriharshachilakapati/HelpMiracle#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "mongoose": "^4.9.10",
+    "morgan": "^1.8.1",
+    "nodemailer": "^4.0.1",
+    "watson-developer-cloud": "^2.31.1"
+  }
+}
