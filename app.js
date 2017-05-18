@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+
+const users = require('./models/user');
 
 // Load the environment variables
 require('dotenv').config();
@@ -21,9 +24,31 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
     // Create an HTTP server using Express
     let app = express();
 
+    app.use(morgan("dev"));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ "extended": true }));
     app.use(express.static(path.join(__dirname, "public")));
+
+    app.post('/register', (req, res) =>
+    {
+        users.create(req.body, err =>
+        {
+            if (err)
+            {
+                res.send({
+                    "success": false,
+                    "message": "Failed to register user!"
+                });
+
+                console.error(err);
+            }
+            else
+                res.send({
+                    "success": true,
+                    "message": "Registration done successfully"
+                });
+        });
+    });
 
     // Start the HTTP server
     app.listen(httpPort, expressErr =>
