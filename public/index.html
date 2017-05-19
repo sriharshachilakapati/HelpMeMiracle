@@ -14,6 +14,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 
     <script type="text/javascript" src="/js/helpDeskApp.js"></script>
+    <script type="text/javascript" src="/js/menuCtrl.js"></script>
     <script type="text/javascript" src="/js/mainCtrl.js"></script>
     <script type="text/javascript" src="/js/loginCtrl.js"></script>
     <script type="text/javascript" src="/js/registerCtrl.js"></script>
@@ -25,16 +26,18 @@
 <body ng-app="helpDeskApp">
     <nav>
         <div class="nav-wrapper cyan darken-4">
-            <div class="container">
+            <div class="container" ng-controller='menuCtrl'>
                 <a href="#/" class="brand-logo">Help Desk</a>
                 <a href="#" data-activates="mobile_sidenav" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="#/login">Login</a></li>
-                    <li><a href="#/register">Register</a></li>
+                    <li ng-repeat="item in nav">
+                        <a ng-href="#{{ item.href }}">{{ item.name }}</a>
+                    </li>
                 </ul>
                 <ul id="mobile_sidenav" class="side-nav">
-                    <li><a href="#/login">Login</a></li>
-                    <li><a href="#/register">Register</a></li>
+                    <li ng-repeat="item in nav">
+                        <a ng-href="#{{ item.href }}">{{ item.name }}</a>
+                    </li>
                 </ul>
             </div>
         </div>
