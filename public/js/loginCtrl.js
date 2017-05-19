@@ -22,7 +22,7 @@ app.controller('loginCtrl', function($scope, $window, $http, $location)
 
             if (resp.success)
             {
-                $window.localStorage.setItem('user', resp.user);
+                $window.localStorage.setItem('user', JSON.stringify(resp.user));
                 $location.path('/');
             }
         }).catch(err =>
