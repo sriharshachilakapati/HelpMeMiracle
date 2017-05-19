@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const jwt = require('jsonwebtoken');
 
 const users = require('./models/user');
 
@@ -12,6 +13,7 @@ require('dotenv').config();
 let dbHost = process.env.DB_HOST;
 let dbPort = process.env.DB_PORT;
 let dbName = process.env.DB_NAME;
+let secret = process.env.SECRET;
 
 let httpPort = process.env.port || 8080;
 
@@ -47,6 +49,51 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
                     "success": true,
                     "message": "Registration done successfully"
                 });
+        });
+    });
+
+    app.post('/login', (req, res) =>
+    {
+        users.findOne({ "mid": req.body.mid }, (err, user) =>
+        {
+            if (err || user == null)
+            {
+                console.error(err || user);
+                res.send({
+                    "success": false,
+                    "message": "Authentication failed, user doesn't exist"
+                });
+            }
+            else
+            {
+                if (user.password != req.body.password)
+                    res.send({
+                        "success": false,
+                        "message": "Authentication failed, check username and password"
+                    });
+                else
+                {
+                    let tokenData = {
+                        "mid": user.mid,
+                        "ts": new Date()
+                    };
+
+                    let token = jwt.sign(tokenData, secret, {
+                        "expiresIn": "1d"
+                    });
+
+                    res.json({
+                        "success": true,
+                        "message": "Authentication successfully",
+                        "user": {
+                            "token": token,
+                            "mid": user.mid,
+                            "mail": user.mail,
+                            "name": user.name
+                        }
+                    });
+                }
+            }
         });
     });
 
