@@ -12,7 +12,52 @@ let schema = mongoose.Schema({
         "required": true
     },
 
-    "description": {
+    "priority": {
+        "type": Number,
+        "required": true
+    },
+
+    "category": {
+        "type": String,
+        "required": true
+    },
+
+    "location": {
+        "type": String,
+        "required": true
+    },
+
+    "department": {
+        "type": String,
+        "required": true
+    },
+
+    "project": {
+        "type": String,
+        "required": true
+    },
+
+    "shiftTime": {
+        "type": String,
+        "required": true
+    },
+
+    "extensionOrMobile": {
+        "type": String,
+        "required": true
+    },
+
+    "ipAddress": {
+        "type": String,
+        "required": true
+    },
+
+    "status": {
+        "type": String,
+        "required": true
+    },
+
+    "assignee": {
         "type": String,
         "required": true
     },
