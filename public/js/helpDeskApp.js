@@ -14,6 +14,10 @@ app.config(function($routeProvider, $locationProvider)
         "templateUrl": "register.html",
         "controller": "registerCtrl"
     }).
+    when('/logout', {
+        "templateUrl": "home.html",
+        "controller": "logoutCtrl"
+    }).
     otherwise({
         "redirectTo": "/"
     });
