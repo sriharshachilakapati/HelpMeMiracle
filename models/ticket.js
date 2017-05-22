@@ -48,8 +48,7 @@ let schema = mongoose.Schema({
     },
 
     "ipAddress": {
-        "type": String,
-        "required": true
+        "type": String
     },
 
     "status": {
