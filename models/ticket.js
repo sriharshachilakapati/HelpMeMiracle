@@ -59,7 +59,7 @@ let schema = mongoose.Schema({
 
     "assignee": {
         "type": String,
-        "required": true
+        "required": false
     },
 
     "replies": [{
