@@ -1,26 +1,20 @@
-<div class="carousel carousel-slider center" data-indicators="true">
-    <div class="carousel-item teal lighten-5" href="#one!">
-        <h2>First Panel</h2>
-        <p>This is your first panel</p>
-    </div>
-    <div class="carousel-item cyan lighten-5" href="#two!">
-        <h2>Second Panel</h2>
-        <p>This is your second panel</p>
-    </div>
-    <div class="carousel-item blue lighten-5" href="#three!">
-        <h2>Third Panel</h2>
-        <p>This is your third panel</p>
-    </div>
-</div>
-
-<script>
-    $(() =>
-    {
-        $('.carousel').carousel({
-            "fullWidth": true,
-            "padding": 200
-        });
-
-        setInterval(() => $('.carousel').carousel('next'), 3000);
-    });
-</script>
+<table ng-show="tickets" class="responsive-table centered highlight">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Author</th>
+            <th>Assignee</th>
+            <th>Priority</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="ticket in tickets">
+            <td><a ng-href="#/ticket/{{ ticket.tid }}">{{ ticket.title }}</a></td>
+            <td>{{ ticket.category }}</td>
+            <td>{{ ticket.author }}</td>
+            <td>{{ ticket.assignee }}</td>
+            <td>{{ ticket.priority }}</td>
+        </tr>
+    </tbody>
+</table>
