@@ -7,8 +7,10 @@ const morgan = require('morgan');
 // Load the environment variables
 require('dotenv').config();
 
+const authCheck = require('./apis/authCheck');
 const loginAPI = require('./apis/login');
 const registerAPI = require('./apis/register');
+const ticketAPI = require('./apis/ticket');
 
 let dbHost = process.env.DB_HOST;
 let dbPort = process.env.DB_PORT;
@@ -32,6 +34,11 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
 
     app.use('/login', loginAPI);
     app.use('/register', registerAPI);
+    app.use('/ticket', ticketAPI.openAPI);
+
+    app.use(authCheck);
+
+    app.use('/tickets', ticketAPI.authAPI);
 
     // Start the HTTP server
     app.listen(httpPort, expressErr =>
