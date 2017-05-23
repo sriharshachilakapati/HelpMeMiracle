@@ -34,7 +34,7 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
 
     app.use('/login', loginAPI);
     app.use('/register', registerAPI);
-    app.use('/ticket', ticketAPI.openAPI);
+    app.use('/tickets', ticketAPI.openAPI);
 
     app.use(authCheck);
 

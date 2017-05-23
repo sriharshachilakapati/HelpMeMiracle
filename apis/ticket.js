@@ -1,6 +1,7 @@
 const express = require('express');
 const tickets = require('../models/ticket');
 const users = require('../models/user');
+const replies = require('../models/reply');
 
 let authRouter = express.Router();
 let openRouter = express.Router();
@@ -52,6 +53,71 @@ function ticketsFindHandler(selector, res)
 openRouter.get('/all',    (req, res) => ticketsFindHandler({}, res));
 openRouter.get('/open',   (req, res) => ticketsFindHandler({ "status": "open" }, res));
 openRouter.get('/closed', (req, res) => ticketsFindHandler({ "status": "closed" }, res));
+
+openRouter.get('/:tid', (req, res) =>
+{
+    let tid = req.params.tid;
+    tickets.findOne({ "tid": tid }).populate("assigneeRef authorRef").exec((err, ticket) =>
+    {
+        if (err || ticket == null)
+        {
+            console.error(err);
+            res.json({
+                "success": false,
+                "message": `Failed to find the ticket with id ${tid}`
+            });
+        }
+        else
+        {
+            // Get all replies in this ticket
+            replies.find({ "tid": tid }).populate("authorRef").exec((err, data) =>
+            {
+                if (err || data == null)
+                {
+                    console.error(err);
+                    res.json({
+                        "success": false,
+                        "message": `Failed to find the replies for ticket ${tid}`
+                    });
+                }
+                else
+                {
+                    let response = {
+                        "tid": ticket.tid,
+                        "title": ticket.title,
+
+                        "priority": ticket.priority,
+                        "category": ticket.category,
+                        "location": ticket.location,
+                        "department": ticket.department,
+
+                        "project": ticket.project,
+                        "shiftTime": ticket.shiftTime,
+
+                        "extensionOrMobile": ticket.extensionOrMobile,
+                        "ipAddress": ticket.ipAddress,
+
+                        "status": ticket.status,
+                        "assignee": ticket.assigneeRef.name,
+                        "author": ticket.authorRef.name,
+
+                        "replies": data.map(reply => ({
+                            "rid": reply.rid,
+                            "mid": reply.mid,
+                            "message": reply.message,
+                            "authorName": reply.authorRef.name
+                        }))
+                    };
+
+                    res.json({
+                        "success": true,
+                        "ticket": response
+                    });
+                }
+            });
+        }
+    });
+});
 
 module.exports = {
     "authAPI": authRouter,
