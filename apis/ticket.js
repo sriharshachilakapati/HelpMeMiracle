@@ -10,9 +10,16 @@ authRouter.post('/new', (req, res) =>
     // TODO: Implement after the NLP module is ready
 });
 
-openRouter.get('/all', (req, res) =>
+/**
+ * Function to fetch multiple tickets based on a selector. Called with different
+ * selectors by different routes.
+ *
+ * @param selector Object
+ * @param res      Object
+ */
+function ticketsFindHandler(selector, res)
 {
-    tickets.find({}).populate("assigneeRef authorRef").exec((err, data) =>
+    tickets.find(selector).populate("assigneeRef authorRef").exec((err, data) =>
     {
         if (err)
         {
@@ -40,7 +47,11 @@ openRouter.get('/all', (req, res) =>
             });
         }
     });
-});
+}
+
+openRouter.get('/all',    (req, res) => ticketsFindHandler({}, res));
+openRouter.get('/open',   (req, res) => ticketsFindHandler({ "status": "open" }, res));
+openRouter.get('/closed', (req, res) => ticketsFindHandler({ "status": "closed" }, res));
 
 module.exports = {
     "authAPI": authRouter,
