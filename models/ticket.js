@@ -80,14 +80,14 @@ let schema = mongoose.Schema({
     }]
 });
 
-schema.virtual('assigneeName', {
+schema.virtual('assigneeRef', {
     'ref': 'user',
     'localField': 'assignee',
     'foreignField': 'mid',
     'justOne': true
 });
 
-schema.virtual('authorName', {
+schema.virtual('authorRef', {
     'ref': 'user',
     'localField': 'author',
     'foreignField': 'mid',
