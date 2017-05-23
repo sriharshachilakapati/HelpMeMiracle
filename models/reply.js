@@ -36,3 +36,5 @@ schema.virtual('authorRef', {
     "foreignField": "mid",
     "justOne": true
 });
+
+module.exports = mongoose.model('reply', schema);
