@@ -61,6 +61,11 @@ let schema = mongoose.Schema({
         "required": false
     },
 
+    "author": {
+        "type": String,
+        "required": false
+    },
+
     "replies": [{
         "mid": {
             "type": String,
@@ -73,6 +78,20 @@ let schema = mongoose.Schema({
             "required": true
         }
     }]
+});
+
+schema.virtual('assigneeName', {
+    'ref': 'user',
+    'localField': 'assignee',
+    'foreignField': 'mid',
+    'justOne': true
+});
+
+schema.virtual('authorName', {
+    'ref': 'user',
+    'localField': 'author',
+    'foreignField': 'mid',
+    'justOne': true
 });
 
 let tickets = module.exports = mongoose.model('ticket', schema);
