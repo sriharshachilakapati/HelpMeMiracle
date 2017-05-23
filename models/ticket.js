@@ -64,20 +64,7 @@ let schema = mongoose.Schema({
     "author": {
         "type": String,
         "required": false
-    },
-
-    "replies": [{
-        "mid": {
-            "type": String,
-            "required": true,
-            "unique": true
-        },
-
-        "description": {
-            "type": String,
-            "required": true
-        }
-    }]
+    }
 });
 
 schema.virtual('assigneeRef', {
@@ -94,39 +81,4 @@ schema.virtual('authorRef', {
     'justOne': true
 });
 
-let tickets = module.exports = mongoose.model('ticket', schema);
-
-module.exports.addReply = function(tid, reply, callback)
-{
-    tickets.findOne({ "tid": tid }, (err, ticket) =>
-    {
-        if (err || ticket == null)
-        {
-            console.log(err);
-            callback({
-                "success": false,
-                "message": "Ticket doesn't exist!"
-            });
-        }
-        else
-        {
-            ticket.replies.push(reply);
-            ticket.save(err =>
-            {
-                if (err)
-                {
-                    console.log(err);
-                    callback({
-                        "success": false,
-                        "message": "Failure to add reply to ticket"
-                    });
-                }
-                else
-                    callback({
-                        "success": true,
-                        "message": "Reply submitted successfully"
-                    });
-            });
-        }
-    });
-};
+module.exports = mongoose.model('ticket', schema);
