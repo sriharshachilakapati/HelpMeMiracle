@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col s12">
+        <h4 ng-bind="ticket.title"></h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m9">
+        <div class="row" ng-repeat="reply in ticket.replies">
+            <div class="card">
+                <div class="card-content">
+                    <span ng-bind="reply.message"></span>
+                </div>
+                <div class="card-action">
+                    <span ng-bind="reply.authorName"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m3">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-action">
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Priority</strong>: <span ng-bind="ticket.priority"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Category</strong>: <span ng-bind="ticket.category"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Location</strong>: <span ng-bind="ticket.location"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Department</strong>: <span ng-bind="ticket.department"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Project</strong>: <span ng-bind="ticket.project"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Shift Time</strong>: <span ng-bind="ticket.shiftTime"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Extension / Mobile</strong>: <span ng-bind="ticket.extensionOrMobile"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>IP Address</strong>: <span ng-bind="ticket.ipAddress"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Status</strong>: <span ng-bind="ticket.status"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <strong>Assignee</strong>: <span ng-bind="ticket.assignee"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

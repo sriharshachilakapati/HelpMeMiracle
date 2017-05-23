@@ -18,6 +18,10 @@ app.config(function($routeProvider, $locationProvider)
         "templateUrl": "home.html",
         "controller": "logoutCtrl"
     }).
+    when('/ticket/:tid', {
+        "templateUrl": "ticket.html",
+        "controller": "ticketCtrl"
+    }).
     otherwise({
         "redirectTo": "/"
     });
