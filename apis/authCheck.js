@@ -42,7 +42,10 @@ function authCheck(req, res, next)
         });
     }
     else
-        next();
+        res.json({
+            "success": false,
+            "message": "You need to be authorized to be here!"
+        });
 }
 
 module.exports = authCheck;

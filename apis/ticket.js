@@ -6,11 +6,6 @@ const replies = require('../models/reply');
 let authRouter = express.Router();
 let openRouter = express.Router();
 
-authRouter.post('/new', (req, res) =>
-{
-    // TODO: Implement after the NLP module is ready
-});
-
 /**
  * Function to fetch multiple tickets based on a selector. Called with different
  * selectors by different routes.
@@ -50,6 +45,12 @@ function ticketsFindHandler(selector, res)
     });
 }
 
+authRouter.post('/new', (req, res) =>
+{
+    // TODO: Implement after the NLP module is ready
+});
+
+authRouter.post('/my',    (req, res) => ticketsFindHandler({ "author": req.user.mid }, res));
 openRouter.get('/all',    (req, res) => ticketsFindHandler({}, res));
 openRouter.get('/open',   (req, res) => ticketsFindHandler({ "status": "open" }, res));
 openRouter.get('/closed', (req, res) => ticketsFindHandler({ "status": "closed" }, res));
