@@ -3,14 +3,10 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
+const autoIncrement = require('mongoose-auto-increment');
 
 // Load the environment variables
 require('dotenv').config();
-
-const authCheck = require('./apis/authCheck');
-const loginAPI = require('./apis/login');
-const registerAPI = require('./apis/register');
-const ticketAPI = require('./apis/ticket');
 
 let dbHost = process.env.DB_HOST;
 let dbPort = process.env.DB_PORT;
@@ -18,11 +14,20 @@ let dbName = process.env.DB_NAME;
 
 let httpPort = process.env.port || 8080;
 
+mongoose.Promise = global.Promise;
+
 // Connect to the DB first using mongoose
 mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
 {
     if (mongooseErr)
         throw mongooseErr;
+
+    autoIncrement.initialize(mongoose.connection);
+
+    const authCheck = require('./apis/authCheck');
+    const loginAPI = require('./apis/login');
+    const registerAPI = require('./apis/register');
+    const ticketAPI = require('./apis/ticket');
 
     // Create an HTTP server using Express
     let app = express();

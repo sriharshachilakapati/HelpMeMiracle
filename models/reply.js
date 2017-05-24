@@ -1,14 +1,9 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment');
 
 let schema = mongoose.Schema({
-    "rid": {
-        "type": String,
-        "required": true,
-        "unique": true
-    },
-
     "tid": {
-        "type": String,
+        "type": Number,
         "required": true
     },
 
@@ -21,6 +16,11 @@ let schema = mongoose.Schema({
         "type": String,
         "required": true
     }
+});
+
+schema.plugin(autoIncrement.plugin, {
+    "model": "reply",
+    "field": "rid"
 });
 
 schema.virtual('ticketRef', {
