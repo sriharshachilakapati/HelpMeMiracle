@@ -36,7 +36,8 @@ function ticketsFindHandler(selector, res)
                 "category": ticket.category,
                 "author": ticket.authorRef.name,
                 "assignee": (ticket.assigneeRef || { "name": "Unassigned"}).name
-            }));
+            })).
+            sort((t1, t2) => (t2.priority - t1.priority));
 
             res.json({
                 "success": true,
@@ -180,7 +181,8 @@ openRouter.get('/:tid', (req, res) =>
                             "mid": reply.mid,
                             "message": reply.message,
                             "authorName": reply.authorRef.name
-                        }))
+                        })).
+                        sort((r1, r2) => (r1.rid - r2.rid))
                     };
 
                     res.json({
