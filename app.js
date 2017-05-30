@@ -28,6 +28,7 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
     const loginAPI = require('./apis/login');
     const registerAPI = require('./apis/register');
     const ticketAPI = require('./apis/ticket');
+    const replyAPI = require('./apis/reply');
 
     // Create an HTTP server using Express
     let app = express();
@@ -44,6 +45,7 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
     app.use(authCheck);
 
     app.use('/tickets', ticketAPI.authAPI);
+    app.use('/replies', replyAPI.authAPI);
 
     // Start the HTTP server
     app.listen(httpPort, expressErr =>

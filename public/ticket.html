@@ -15,6 +15,22 @@
                 </div>
             </div>
         </div>
+
+        <div ng-show="userLoggedIn" class="row">
+            <div class="card">
+                <div class="card-content">
+                    <h5>Reply</h5>
+                    <div class="input-field">
+                        <textarea class="materialize-textarea" ng-model="replyMsg"></textarea>
+                    </div>
+                    <div class="right-align">
+                        <button class="btn waves-effect waves-light" ng-click="sendReply()" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col s12 m3">
         <div class="row">
