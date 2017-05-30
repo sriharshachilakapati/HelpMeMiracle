@@ -13,7 +13,8 @@
                         <label for="title">Title</label>
                     </div>
                     <div class="input-field">
-                        <textarea class="materialize-textarea" ng-model="ticket.message"></textarea>
+                        <textarea id="description" class="materialize-textarea" ng-model="ticket.message"></textarea>
+                        <label for="description">Description</label>
                     </div>
                     <div class="right-align">
                         <button class="btn waves-effect waves-light" ng-click="createTicket()" name="action">Submit
