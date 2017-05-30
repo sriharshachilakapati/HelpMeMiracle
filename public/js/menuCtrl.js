@@ -12,6 +12,7 @@ app.controller('menuCtrl', function($scope, $window)
         else
             $scope.nav = [
                 { "name": "All Tickets", "href": "/" },
+                { "name": "New Ticket", "href": "/new" },
                 { "name": "My Tickets", "href": "/my" },
                 { "name": "Logout", "href": "/logout" }
             ];

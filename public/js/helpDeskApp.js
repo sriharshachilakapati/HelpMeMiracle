@@ -26,6 +26,10 @@ app.config(function($routeProvider, $locationProvider)
         "templateUrl": "tickets.html",
         "controller": "myTicketsCtrl"
     }).
+    when('/new', {
+        "templateUrl": "ticketNew.html",
+        "controller": "ticketNewCtrl"
+    }).
     otherwise({
         "redirectTo": "/"
     });
