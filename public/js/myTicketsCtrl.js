@@ -1,8 +1,14 @@
-app.controller('mainCtrl', function($scope, $http)
+app.controller('myTicketsCtrl', function($scope, $window, $http)
 {
     let request = {
-        "url": "/tickets/all",
-        "method": "GET"
+        "url": "/tickets/my",
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": {
+            "token": JSON.parse($window.localStorage.getItem('user')).token
+        }
     };
 
     $http(request)
