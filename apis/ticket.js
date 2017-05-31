@@ -14,37 +14,36 @@ let openRouter = express.Router();
  * @param selector Object
  * @param res      Object
  */
-function ticketsFindHandler(selector, res)
+async function ticketsFindHandler(selector, res)
 {
-    tickets.find(selector).populate("assigneeRef authorRef").exec((err, data) =>
+    try
     {
-        if (err)
-        {
-            console.error(err);
-            res.json({
-                "success": false,
-                "message": "Failed to retrieve the tickets."
-            });
-        }
-        else
-        {
-            // Get the enough ticket fields
-            let allTickets = data.map(ticket => ({
-                "tid": ticket.tid,
-                "title": ticket.title,
-                "priority": ticket.priority,
-                "category": ticket.category,
-                "author": ticket.authorRef.name,
-                "assignee": (ticket.assigneeRef || { "name": "Unassigned"}).name
-            })).
-            sort((t1, t2) => (t2.priority - t1.priority));
+        let allTickets = await tickets.find(selector).populate("assigneeRef authorRef").exec();
 
-            res.json({
-                "success": true,
-                "tickets": allTickets
-            });
-        }
-    });
+        // Get the enough ticket fields
+        allTickets = allTickets.map(ticket => ({
+            "tid": ticket.tid,
+            "title": ticket.title,
+            "priority": ticket.priority,
+            "category": ticket.category,
+            "author": ticket.authorRef.name,
+            "assignee": (ticket.assigneeRef || { "name": "Unassigned" }).name
+        })).
+        sort((t1, t2) => (t2.priority - t1.priority));
+
+        res.json({
+            "success": true,
+            "tickets": allTickets
+        });
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.json({
+            "success": false,
+            "message": "Failed to retrieve the tickets."
+        });
+    }
 }
 
 authRouter.post('/new', (req, res) =>
@@ -129,70 +128,64 @@ openRouter.get('/all',    (req, res) => ticketsFindHandler({}, res));
 openRouter.get('/open',   (req, res) => ticketsFindHandler({ "status": "open" }, res));
 openRouter.get('/closed', (req, res) => ticketsFindHandler({ "status": "closed" }, res));
 
-openRouter.get('/:tid', (req, res) =>
+openRouter.get('/:tid', async (req, res) =>
 {
-    let tid = req.params.tid;
-    tickets.findOne({ "tid": tid }).populate("assigneeRef authorRef").exec((err, ticket) =>
+    try
     {
-        if (err || ticket == null)
-        {
-            console.error(err);
-            res.json({
-                "success": false,
-                "message": `Failed to find the ticket with id ${tid}`
-            });
-        }
-        else
-        {
-            // Get all replies in this ticket
-            replies.find({ "tid": tid }).populate("authorRef").exec((err, data) =>
-            {
-                if (err || data == null)
-                {
-                    console.error(err);
-                    res.json({
-                        "success": false,
-                        "message": `Failed to find the replies for ticket ${tid}`
-                    });
-                }
-                else
-                {
-                    let response = {
-                        "tid": ticket.tid,
-                        "title": ticket.title,
+        let tid = req.params.tid;
 
-                        "priority": ticket.priority,
-                        "category": ticket.category,
-                        "location": ticket.location,
-                        "department": ticket.department,
+        let ticket = await tickets.findOne({ "tid": tid }).populate("assigneeRef authorRef").exec();
 
-                        "project": ticket.project,
-                        "shiftTime": ticket.shiftTime,
+        if (ticket == null)
+            throw new Error(`Ticket with id ${tid} is invalid`);
 
-                        "extensionOrMobile": ticket.extensionOrMobile,
-                        "ipAddress": ticket.ipAddress,
+        // Get all replies in this ticket
+        let data = await replies.find({ "tid": tid }).populate("authorRef").exec();
 
-                        "status": ticket.status,
-                        "assignee": (ticket.assigneeRef || { "name": "Unassigned" }).name,
-                        "author": ticket.authorRef.name,
+        if (data == null)
+            throw new Error(`Cannot find replies for the ticket ${tid}`);
 
-                        "replies": data.map(reply => ({
-                            "rid": reply.rid,
-                            "mid": reply.mid,
-                            "message": reply.message,
-                            "authorName": reply.authorRef.name
-                        })).
-                        sort((r1, r2) => (r1.rid - r2.rid))
-                    };
+        let response = {
+            "tid": ticket.tid,
+            "title": ticket.title,
 
-                    res.json({
-                        "success": true,
-                        "ticket": response
-                    });
-                }
-            });
-        }
-    });
+            "priority": ticket.priority,
+            "category": ticket.category,
+            "location": ticket.location,
+            "department": ticket.department,
+
+            "project": ticket.project,
+            "shiftTime": ticket.shiftTime,
+
+            "extensionOrMobile": ticket.extensionOrMobile,
+            "ipAddress": ticket.ipAddress,
+
+            "status": ticket.status,
+            "assignee": (ticket.assigneeRef || { "name": "Unassigned" }).name,
+            "author": ticket.authorRef.name,
+
+            "replies": data.map(reply => ({
+                "rid": reply.rid,
+                "mid": reply.mid,
+                "message": reply.message,
+                "authorName": reply.authorRef.name
+            })).
+            sort((r1, r2) => (r1.rid - r2.rid))
+        };
+
+        res.json({
+            "success": true,
+            "ticket": response
+        });
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.json({
+            "success": false,
+            "message": err.message
+        });
+    }
 });
 
 module.exports = {
