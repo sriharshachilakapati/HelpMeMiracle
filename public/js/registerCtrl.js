@@ -10,6 +10,7 @@ app.controller('registerCtrl', function($scope, $http, $location)
             },
             "data": {
                 "mid": $scope.mid,
+                "type": $scope.reg.type,
                 "name": $scope.name,
                 "mail": $scope.mail,
                 "password": $scope.password

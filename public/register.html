@@ -2,6 +2,16 @@
     <form class="col s12">
         <div class="row">
             <div class="col s12 m6 input-field">
+                <select id="type" ng-model="reg.type">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="Employee">Employee</option>
+                    <option value="Support Team">Support Team</option>
+                </select>
+                <label for="type">Select entry type</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 m6 input-field">
                 <input placeholder="Miracle ID" id="mid" type="text" ng-model="mid" class="validate">
                 <label for="mid">Miracle ID</label>
             </div>
