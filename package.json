@@ -31,10 +31,10 @@
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "jsonwebtoken": "^7.4.1",
-    "mongoose": "^4.9.10",
+    "mongoose": "^4.10.4",
     "mongoose-auto-increment": "^5.0.1",
-    "morgan": "^1.8.1",
+    "morgan": "^1.8.2",
     "nodemailer": "^4.0.1",
-    "watson-developer-cloud": "^2.31.1"
+    "watson-developer-cloud": "^2.32.1"
   }
 }
