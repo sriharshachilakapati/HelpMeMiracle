@@ -38,6 +38,14 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
     app.use(bodyParser.urlencoded({ "extended": true }));
     app.use(express.static(path.join(__dirname, "public")));
 
+    app.use((req, res, next) =>
+    {
+        if (req.originalUrl.includes("."))
+            res.status(404).send();
+        else
+            next();
+    });
+
     app.use('/login', loginAPI);
     app.use('/register', registerAPI);
     app.use('/tickets', ticketAPI.openAPI);
