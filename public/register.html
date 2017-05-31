@@ -4,8 +4,8 @@
             <div class="col s12 m6 input-field">
                 <select id="type" ng-model="reg.type">
                     <option value="" disabled selected>Choose your option</option>
-                    <option value="Employee">Employee</option>
-                    <option value="Support Team">Support Team</option>
+                    <option value="user">Employee</option>
+                    <option value="support">Support Team</option>
                 </select>
                 <label for="type">Select entry type</label>
             </div>
@@ -45,3 +45,6 @@
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    $(() => ($('select').material_select()));
+</script>

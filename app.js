@@ -47,11 +47,11 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
     });
 
     app.use('/login', loginAPI);
-    app.use('/register', registerAPI);
     app.use('/tickets', ticketAPI.openAPI);
 
     app.use(authCheck);
 
+    app.use('/register', registerAPI);
     app.use('/tickets', ticketAPI.authAPI);
     app.use('/replies', replyAPI.authAPI);
 

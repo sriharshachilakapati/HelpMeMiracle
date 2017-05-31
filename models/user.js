@@ -21,7 +21,31 @@ let schema = mongoose.Schema({
     "password": {
         "type": String,
         "required": true
+    },
+
+    "type": {
+        "type": String,
+        "required": true,
+        "enum": [
+            "user",
+            "admin",
+            "support"
+        ]
     }
 });
 
-module.exports = mongoose.model("user", schema);
+let model = module.exports = mongoose.model("user", schema);
+
+(async () =>
+{
+    let count = await model.where({ "type": "admin" }).count();
+
+    if (count <= 0)
+        model.create({
+            "mid": "admin",
+            "name": "Admin",
+            "mail": "admin@miraclesoft.com",
+            "password": "admin",
+            "type": "admin"
+        });
+})();

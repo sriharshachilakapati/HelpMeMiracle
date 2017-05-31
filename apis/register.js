@@ -1,14 +1,20 @@
 const express = require('express');
 const users = require('../models/user');
-const spteam = require('../models/spteam');
 
 let router = module.exports = express.Router();
 
 router.post('/', (req, res) =>
 {
-    let coll = req.body.type === "Employee" ? users : spteam;
+    if (req.user.type !== "admin")
+    {
+        res.send({
+            "success": false,
+            "message": "You need to be authorized as an admin!"
+        });
+        return;
+    }
 
-    coll.create(req.body, err =>
+    users.create(req.body, err =>
     {
         if (err)
         {

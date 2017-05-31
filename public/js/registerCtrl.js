@@ -1,4 +1,4 @@
-app.controller('registerCtrl', function($scope, $http, $location)
+app.controller('registerCtrl', function($scope, $window, $http, $location)
 {
     $scope.register = function()
     {
@@ -13,11 +13,21 @@ app.controller('registerCtrl', function($scope, $http, $location)
                 "type": $scope.reg.type,
                 "name": $scope.name,
                 "mail": $scope.mail,
-                "password": $scope.password
+                "password": $scope.password,
+                "token": JSON.parse($window.localStorage.getItem('user')).token
             }
         };
 
-        $http(request).then(() => $location.path("/"))
-            .catch(() => ($scope.error = "Failed to register account!"));
+        $http(request).
+            success(res =>
+            {
+                Materialize.toast(res.message, 4000);
+                $location.path("/");
+            }).
+            catch(err =>
+            {
+                Materialize.toast("Network failure!", 4000);
+                console.error(err);
+            })
     };
 });

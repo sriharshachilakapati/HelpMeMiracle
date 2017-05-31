@@ -33,7 +33,8 @@ router.post('/', async (req, res) =>
                 "token": token,
                 "mid": user.mid,
                 "mail": user.mail,
-                "name": user.name
+                "name": user.name,
+                "type": user.type
             }
         });
     }
