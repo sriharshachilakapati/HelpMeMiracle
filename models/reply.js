@@ -37,4 +37,9 @@ schema.virtual('authorRef', {
     "justOne": true
 });
 
-module.exports = mongoose.model('reply', schema);
+let model = module.exports = mongoose.model('reply', schema);
+
+model.createNew = async function(reply)
+{
+    return await new model(reply).save();
+}

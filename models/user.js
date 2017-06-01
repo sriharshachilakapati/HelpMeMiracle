@@ -36,6 +36,11 @@ let schema = mongoose.Schema({
 
 let model = module.exports = mongoose.model("user", schema);
 
+model.createNew = async function(user)
+{
+    return await new model(user).save();
+};
+
 (async () =>
 {
     let count = await model.where({ "type": "admin" }).count();

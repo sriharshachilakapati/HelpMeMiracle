@@ -81,4 +81,9 @@ schema.virtual('authorRef', {
     'justOne': true
 });
 
-module.exports = mongoose.model('ticket', schema);
+let model = module.exports = mongoose.model('ticket', schema);
+
+model.createNew = async function(ticket)
+{
+    return await new model(ticket).save();
+}

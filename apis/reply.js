@@ -3,7 +3,7 @@ const replies = require('../models/reply');
 
 let authRouter = express.Router();
 
-authRouter.post('/new', (req, res) =>
+authRouter.post('/new', async (req, res) =>
 {
     let reply = {
         "tid": req.body.tid,
@@ -11,22 +11,22 @@ authRouter.post('/new', (req, res) =>
         "message": req.body.message
     };
 
-    replies.create(reply, err =>
+    try
     {
-        if (err)
-        {
-            console.error(err);
-            res.json({
-                "success": false,
-                "message": "Unable to create a reply"
-            });
-        }
-        else
-            res.json({
-                "success": true,
-                "message": "Reply submitted successfully"
-            });
-    });
+        await replies.createNew(reply);
+        res.json({
+            "success": true,
+            "message": "Reply submitted successfully"
+        });
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.json({
+            "success": false,
+            "message": "Reply submission failed"
+        });
+    }
 });
 
 module.exports = {

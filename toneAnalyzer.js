@@ -7,7 +7,7 @@ const watsonConfig = {
 };
 const nlu = new nlulib(watsonConfig);
 
-module.exports.analyzeTone = function(text, callback)
+module.exports.analyzeTone = function(text)
 {
     let parameters = {
         "text": text,
@@ -16,25 +16,21 @@ module.exports.analyzeTone = function(text, callback)
         }
     };
 
-    nlu.analyze(parameters, (err, res) =>
+    return new Promise((resolve, reject) =>
     {
-        if (err)
+        nlu.analyze(parameters, (err, res) =>
         {
-            console.error(err);
-            callback({
-                "success": false,
-                "message": "Analyzation failed"
-            });
-        }
-        else
-        {
-            let doc = res.emotion.document;
-            callback({
-                "success": true,
-                "sadness": doc.emotion.sadness,
-                "anger": doc.emotion.anger,
-                "disgust": doc.emotion.disgust
-            });
-        }
+            if (err)
+                reject(err);
+            else
+            {
+                let doc = res.emotion.document;
+                resolve({
+                    "sadness": doc.emotion.sadness,
+                    "anger": doc.emotion.anger,
+                    "disgust": doc.emotion.disgust
+                });
+            }
+        });
     });
 }

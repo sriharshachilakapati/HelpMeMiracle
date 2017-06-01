@@ -3,32 +3,33 @@ const users = require('../models/user');
 
 let router = module.exports = express.Router();
 
-router.post('/', (req, res) =>
+router.post('/', async (req, res) =>
 {
-    if (req.user.type !== "admin")
+    try
     {
-        res.send({
-            "success": false,
-            "message": "You need to be authorized as an admin!"
-        });
-        return;
-    }
+        if (req.user.type !== "admin")
+            throw new Error('You need to be authorized as an admin!');
 
-    users.create(req.body, err =>
-    {
-        if (err)
+        try
         {
-            res.send({
-                "success": false,
-                "message": "Failed to register user!"
-            });
-
-            console.error(err);
-        }
-        else
-            res.send({
+            await users.createNew(req.body);
+            res.json({
                 "success": true,
-                "message": "Registration done successfully"
+                "message": "Registration successful"
             });
-    });
+        }
+        catch (err)
+        {
+            console.error(err);
+            throw new Error('Failed to register user');
+        }
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.json({
+            "success": false,
+            "message": err.message
+        });
+    }
 });
