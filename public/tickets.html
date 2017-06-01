@@ -1,20 +1,28 @@
-<table ng-show="tickets" class="responsive-table centered highlight">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Author</th>
-            <th>Assignee</th>
-            <th>Priority</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="ticket in tickets">
-            <td><a ng-href="#/ticket/{{ ticket.tid }}">{{ ticket.title }}</a></td>
-            <td>{{ ticket.category }}</td>
-            <td>{{ ticket.author }}</td>
-            <td>{{ ticket.assignee }}</td>
-            <td>{{ ticket.priority }}</td>
-        </tr>
-    </tbody>
-</table>
+<h3 class="center-align">Tickets Open</h3>
+
+<div class="card">
+    <div class="card-content">
+        <table ng-show="tickets" class="responsive-table centered highlight">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Author</th>
+                    <th>Assignee</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="ticket in tickets">
+                    <td><a ng-href="#/ticket/{{ ticket.tid }}">{{ ticket.title }}</a></td>
+                    <td>{{ ticket.category }}</td>
+                    <td>{{ ticket.author }}</td>
+                    <td>{{ ticket.assignee }}</td>
+                    <td>{{ ticket.priority }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<p class="center-align">There are <span ng-bind="tickets.length"></span> tickets created</p>
