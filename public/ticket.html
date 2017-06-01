@@ -84,7 +84,21 @@
                         </div>
                         <div class="row">
                             <div class="col s12">
-                                <strong>Assignee</strong>: <span ng-bind="ticket.assignee"></span>
+                                <strong>Assignee</strong>:
+                                <span ng-bind="ticket.assigneeName" ng-hide="supportTeam != null"></span>
+                                <form>
+                                    <div class="input-field">
+                                        <select ng-model="ticket.assignee" class="browser-default" ng-hide="supportTeam == null"
+                                                ng-change="assign(ticket.assignee)">
+                                            <option value="" disabled selected>Choose your option</option>
+                                            <option ng-selected="{{ supporter.mid == ticket.assignee }}"
+                                                    ng-repeat="supporter in supportTeam"
+                                                    value="{{ supporter.mid }}">
+                                                {{ supporter.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -93,3 +107,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    // $(() => $('select').material_select());
+</script>

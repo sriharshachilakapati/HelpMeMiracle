@@ -29,8 +29,9 @@ app.controller('ticketNewCtrl', function($scope, $window, $http, $location)
             if (data.success)
                 $location.path('/');
         }).
-        fail(() =>
+        catch(err =>
         {
+            console.error(err);
             Materialize.toast("Network connectivity issue! Try again later!", 4000);
         });
     };

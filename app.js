@@ -29,6 +29,7 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
     const registerAPI = require('./apis/register');
     const ticketAPI = require('./apis/ticket');
     const replyAPI = require('./apis/reply');
+    const userAPI = require('./apis/user');
 
     // Create an HTTP server using Express
     let app = express();
@@ -46,6 +47,7 @@ mongoose.connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, mongooseErr =>
             next();
     });
 
+    app.use('/users', userAPI);
     app.use('/login', loginAPI);
     app.use('/tickets', ticketAPI.openAPI);
 
