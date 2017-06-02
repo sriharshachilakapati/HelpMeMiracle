@@ -101,6 +101,38 @@ authRouter.post('/new', async (req, res) =>
     }
 });
 
+authRouter.post('/status', async (req, res) =>
+{
+    let tid = req.body.tid;
+
+    try
+    {
+        let ticket = await tickets.findOne({ "tid": tid }).exec();
+
+        if (req.user.type === "user" && ticket.author !== req.user.mid)
+            throw new Error(`User ${req.user.mid} trying to change status of ticket he didn't own`);
+
+        if (req.user.type === "support" && ticket.assignee !== req.user.mid)
+            throw new Error(`Support user ${req.user.mid} trying to change status of ticket not assigned to self`);
+
+        ticket.status = req.body.status;
+        await ticket.save();
+
+        res.json({
+            "success": true,
+            "message": `Status of ticket ${tid} changed to ${req.body.status}`
+        });
+    }
+    catch (err)
+    {
+        console.error(err);
+        res.json({
+            "success": false,
+            "message": "Failed to change the status"
+        });
+    }
+});
+
 authRouter.post('/assign', async (req, res) =>
 {
     let tid = req.body.tid;
@@ -176,7 +208,8 @@ openRouter.get('/:tid', async (req, res) =>
             "status": ticket.status,
             "assignee": (ticket.assigneeRef || { "mid": "-1" }).mid,
             "assigneeName": (ticket.assigneeRef || { "name": "Unassigned" }).name,
-            "author": ticket.authorRef.name,
+            "author": ticket.authorRef.mid,
+            "authorName": ticket.authorRef.name,
 
             "replies": data.map(reply => ({
                 "rid": reply.rid,

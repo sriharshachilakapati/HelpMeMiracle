@@ -1,5 +1,32 @@
 app.controller('ticketCtrl', function($scope, $window, $http, $routeParams)
 {
+    $scope.status = function(status)
+    {
+        let request = {
+            "url": '/tickets/status',
+            "method": 'POST',
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "data": {
+                "token": JSON.parse($window.localStorage.getItem('user')).token,
+                "tid": $routeParams.tid,
+                "status": status
+            }
+        };
+
+        $http(request)
+            .success(res =>
+            {
+                Materialize.toast(res.message, 4000);
+            })
+            .catch(err =>
+            {
+                Materialize.toast("Failed to change status", 4000);
+                console.error(err);
+            });
+    };
+
     $scope.assign = function(mid)
     {
         let request = {
@@ -41,11 +68,24 @@ app.controller('ticketCtrl', function($scope, $window, $http, $routeParams)
                     Materialize.toast(data.message, 4000);
                 else
                 {
-                    $scope.ticket = data.ticket;
+                    let ticket = $scope.ticket = data.ticket;
                     let user = $window.localStorage.getItem('user');
                     $scope.userLoggedIn = user != null;
                     user = JSON.parse(user);
 
+                    // Check whether the current user can change the status
+                    $scope.canChangeStatus = false;
+                    if ($scope.userLoggedIn)
+                    {
+                        $scope.canChangeStatus = user.type === "user" && user.mid === ticket.author;
+                        $scope.canChangeStatus = $scope.canChangeStatus || (user.type === "support" && user.mid == ticket.assignee);
+                        $scope.canChangeStatus = $scope.canChangeStatus || (user.type === "admin");
+
+                        setTimeout(() => $('select').material_select(), 500);
+                    }
+
+                    // Admin can assign support to tickets
+                    $scope.supportTeam = null;
                     if ($scope.userLoggedIn && user.type === "admin")
                     {
                         let request = {
@@ -57,16 +97,8 @@ app.controller('ticketCtrl', function($scope, $window, $http, $routeParams)
                         {
                             Materialize.toast(resp.message, 4000);
                             $scope.supportTeam = resp.users;
-                            //
-                            // TODO: Fix when Materialize is finally compatible with AngularJS
-                            //
-                            // console.log($scope.supportTeam);
-                            // 
-                            // setTimeout(() =>
-                            // {
-                            //     $('select').material_select('destroy');
-                            //     setTimeout(() => $('select').material_select(), 200);
-                            // }, 200);
+
+                            setTimeout(() => $('select').material_select(), 500);
                         })
                         .catch(err =>
                         {
