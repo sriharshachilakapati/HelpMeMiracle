@@ -103,13 +103,14 @@ app.controller('ticketCtrl', function($scope, $window, $http, $routeParams)
                         .catch(err =>
                         {
                             console.error(err);
-                            Materialize.toast("Failed to fetch support team members");
+                            Materialize.toast("Failed to fetch support team members", 4000);
                         });
                     }
                 }
             })
             .catch(err =>
             {
+                console.error(err);
                 Materialize.toast("Network down, try again in few minutes", 4000);
             });
     };
