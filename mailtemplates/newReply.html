@@ -1,0 +1,11 @@
+<h3>Hello {{ user.name }}!</h3>
+
+<p>
+    {{ reply.authorName }} has made a reply on your ticket <a href="{{ ticket.url }}">{{ ticket.title }}</a>.
+</p>
+
+<blockquote>
+    <p>{{ reply.message }}</p>
+</blockquote>
+
+<p><a href="{{ ticket.url }}">Click here</a> to make a reply</p>

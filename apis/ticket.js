@@ -3,6 +3,7 @@ const tickets = require('../models/ticket');
 const users = require('../models/user');
 const replies = require('../models/reply');
 const toneAnalyzer = require('../toneAnalyzer');
+const mailer = require('../mailer');
 
 let authRouter = express.Router();
 let openRouter = express.Router();
@@ -86,6 +87,16 @@ authRouter.post('/new', async (req, res) =>
 
         await replies.createNew(reply);
 
+        try
+        {
+            await mailer.notify(await users.findOne({ "mid": "admin" }).exec(), mailer.NewTicketEvent, {
+                "user": req.user._doc,
+                "ticket": ticket,
+                "ticket.url": `http://localhost:8080/#/ticket/${data.tid}`
+            });
+        }
+        catch (err) { console.error(err); }
+
         res.json({
             "success": true,
             "message": "Ticket created successfully"
@@ -107,7 +118,7 @@ authRouter.post('/status', async (req, res) =>
 
     try
     {
-        let ticket = await tickets.findOne({ "tid": tid }).exec();
+        let ticket = await tickets.findOne({ "tid": tid }).populate("authorRef assigneeRef").exec();
 
         if (req.user.type === "user" && ticket.author !== req.user.mid)
             throw new Error(`User ${req.user.mid} trying to change status of ticket he didn't own`);
@@ -122,6 +133,19 @@ authRouter.post('/status', async (req, res) =>
             "success": true,
             "message": `Status of ticket ${tid} changed to ${req.body.status}`
         });
+
+        try
+        {
+            let user = req.user.mid == ticket.authorRef.mid ? ticket.assigneeRef : ticket.authorRef;
+            await mailer.notify(user, mailer.StatusChangedEvent, {
+                "user": user._doc,
+                "status": req.body.status,
+                "status.changer": req.user.name,
+                "ticket": ticket._doc,
+                "ticket.url": `http://localhost:8080/#/ticket/${ticket.tid}`
+            });
+        }
+        catch (err) { console.error(err); }
     }
     catch (err)
     {
@@ -148,10 +172,20 @@ authRouter.post('/assign', async (req, res) =>
         if (assignee.type === "user")
             throw new Error("Normal users cannot be assigned to tickets");
 
-        let ticket = await tickets.findOne({ "tid": tid }).exec();
+        let ticket = await tickets.findOne({ "tid": tid }).populate("authorRef").exec();
 
         ticket.assignee = mid;
         await ticket.save();
+
+        try
+        {
+            await mailer.notify(assignee, mailer.TicketAssignedEvent, {
+                "user": assignee._doc,
+                "ticket": ticket._doc,
+                "ticket.authorName": ticket.authorRef.name
+            });
+        }
+        catch (err) { console.error(err); }
 
         res.json({
             "success": true,
