@@ -198,7 +198,18 @@ authRouter.post('/assign', async (req, res) =>
     }
 });
 
-authRouter.post('/my',    (req, res) => ticketsFindHandler({ "author": req.user.mid }, res));
+authRouter.post('/my', (req, res) =>
+{
+    if (req.user.type === "user")
+        ticketsFindHandler({ "author": req.user.mid }, res);
+    else if (req.user.type == "support")
+        ticketsFindHandler({ "assignee": req.user.mid }, res);
+    else
+        res.json({
+            "success": false,
+            "message": "Admin will never have his tickets"
+        });
+});
 openRouter.get('/all',    (req, res) => ticketsFindHandler({}, res));
 openRouter.get('/open',   (req, res) => ticketsFindHandler({ "status": "open" }, res));
 openRouter.get('/closed', (req, res) => ticketsFindHandler({ "status": "closed" }, res));
