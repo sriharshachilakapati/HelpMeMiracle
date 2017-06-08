@@ -9,3 +9,9 @@ main
 {
     flex: 1 0 auto;
 }
+
+.underline
+{
+    border: 1px solid white;
+    width: 63px;
+}

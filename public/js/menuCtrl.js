@@ -15,7 +15,7 @@ app.controller('menuCtrl', function($scope, $window)
             $scope.nav = new Array();
 
             if (user.type !== "user")
-                $scope.nav.push({ "name": "All Tickets", "href": "/" });
+                $scope.nav.push({ "name": "All Tickets", "href": "/all" });
 
             if (user.type === "admin")
                 $scope.nav.push({ "name": "New User", "href": "/register" });

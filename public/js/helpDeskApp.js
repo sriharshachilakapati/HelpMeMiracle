@@ -3,8 +3,7 @@ let app = angular.module('helpDeskApp', ['ngRoute']);
 app.config(function($routeProvider, $locationProvider)
 {
     $routeProvider.when('/', {
-        "templateUrl": "tickets.html",
-        "controller": "allTicketsCtrl"
+        "templateUrl": "home.html"
     }).
     when('/login', {
         "templateUrl": "login.html",
@@ -29,6 +28,10 @@ app.config(function($routeProvider, $locationProvider)
     when('/new', {
         "templateUrl": "ticketNew.html",
         "controller": "ticketNewCtrl"
+    }).
+    when('/all', {
+        "templateUrl": "tickets.html",
+        "controller": "allTicketsCtrl"
     }).
     otherwise({
         "redirectTo": "/"
