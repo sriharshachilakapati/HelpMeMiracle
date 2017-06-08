@@ -14,18 +14,18 @@ app.controller('menuCtrl', function($scope, $window)
 
             $scope.nav = new Array();
 
-            if (user.type !== "user")
-                $scope.nav.push({ "name": "All Tickets", "href": "/all" });
+            if (user.type !== "admin")
+                $scope.nav.push({ "name": "My Tickets", "href": "/my" });
 
             if (user.type === "admin")
-                $scope.nav.push({ "name": "New User", "href": "/register" });
-
-            if (user.type === "user")
                 [
-                    { "name": "New Ticket", "href": "/new" },
-                    { "name": "My Tickets", "href": "/my" }
+                    { "name": "All Tickets", "href": "/all" },
+                    { "name": "New User", "href": "/register" }
                 ].
                 forEach(menu => ($scope.nav.push(menu)));
+
+            if (user.type === "user")
+                $scope.nav.push({ "name": "New Ticket", "href": "/new" });
 
             $scope.nav.push({ "name": "Logout", "href": "/logout" });
         }
