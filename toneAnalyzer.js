@@ -9,10 +9,14 @@ const nlu = new nlulib(watsonConfig);
 
 module.exports.analyzeTone = function(text)
 {
-    let parameters = {
-        "text": text,
-        "features": {
-            "emotion": {}
+    var parameters = {
+        'text': text,
+        'features': {
+            'keywords': {
+                'sentiment': true,
+                'emotion': true,
+                'limit': 2
+            }
         }
     };
 
@@ -24,12 +28,10 @@ module.exports.analyzeTone = function(text)
                 reject(err);
             else
             {
-                let doc = res.emotion.document;
-                resolve({
-                    "sadness": doc.emotion.sadness,
-                    "anger": doc.emotion.anger,
-                    "disgust": doc.emotion.disgust
-                });
+                resolve([
+                    res.keywords[0].sentiment.score,
+                    res.keywords[1].sentiment.score
+                ]);
             }
         });
     });

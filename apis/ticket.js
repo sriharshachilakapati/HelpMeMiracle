@@ -53,14 +53,10 @@ authRouter.post('/new', async (req, res) =>
 
     try
     {
-        let tone = await toneAnalyzer.analyzeTone(message);
+        let [sentiment1, sentiment2] = await toneAnalyzer.analyzeTone(message);
 
-        let sadness = tone.sadness;
-        let anger = tone.anger;
-        let disgust = tone.disgust;
-
-        let avg = (sadness + anger + disgust) / 3.0;
-        let priority = Math.max(avg * 5, 1);
+        let average = (sentiment1 + sentiment2) / 2.0;
+        let priority = Math.round(Math.max(Math.abs(average) * 5, 1), 1);
 
         let ticket = {
             "priority": priority,
