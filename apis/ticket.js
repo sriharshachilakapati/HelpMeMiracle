@@ -28,6 +28,7 @@ async function ticketsFindHandler(selector, res)
             "priority": ticket.priority,
             "category": ticket.category,
             "author": ticket.authorRef.name,
+            "status": ticket.status,
             "assignee": (ticket.assigneeRef || { "name": "Unassigned" }).name
         })).
         sort((t1, t2) => (t2.priority - t1.priority));
