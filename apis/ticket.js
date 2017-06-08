@@ -28,7 +28,7 @@ async function ticketsFindHandler(selector, res)
             "priority": ticket.priority,
             "category": ticket.category,
             "author": ticket.authorRef.name,
-            "status": ticket.status,
+            "status": ticket.status === "open" ? "Open" : "Closed",
             "assignee": (ticket.assigneeRef || { "name": "Unassigned" }).name
         })).
         sort((t1, t2) => (t2.priority - t1.priority));
@@ -211,6 +211,7 @@ authRouter.post('/my', (req, res) =>
             "message": "Admin will never have his tickets"
         });
 });
+
 openRouter.get('/all',    (req, res) => ticketsFindHandler({}, res));
 openRouter.get('/open',   (req, res) => ticketsFindHandler({ "status": "open" }, res));
 openRouter.get('/closed', (req, res) => ticketsFindHandler({ "status": "closed" }, res));
